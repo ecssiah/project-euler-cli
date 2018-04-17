@@ -21,10 +21,10 @@ Or install it yourself as:
 ## Usage
 
 ```
--    List problems (l)    -
--   Search archives (s)   -
--   Go to problem (g23)   -
--       To exit (x)       -
+-      List problems (l)      -
+-     Search archives (s)     -
+-   Go to problem #23 (g23)   -
+-         To exit (x)         -
 ```
 
 ## Development
