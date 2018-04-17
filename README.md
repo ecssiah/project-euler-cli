@@ -20,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+-    List problems (l)    -
+-   Search archives (s)   -
+-   Go to problem (g23)   -
+-       To exit (x)       -
+```
 
 ## Development
 
