@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["ecssiah"]
   spec.email         = ["ecssiah@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{This is a command line interface for browsing Project Euler.}
+  spec.description   = %q{This is a basic command line interface that allows the user to browse through the archive of problems maintained by Project Euler. It also offers a search feature to quickly locate relevant problems.}
+  spec.homepage      = "https://github.com/ecssiah/project-euler-cli-app"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,4 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  spec.add_dependency "nokogiri", "~> 1.8"
 end
