@@ -3,7 +3,6 @@ PATH
   specs:
     project_euler_cli (0.1.0)
       nokogiri (~> 1.8)
-      thor
 
 GEM
   remote: https://rubygems.org/
@@ -31,7 +30,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    thor (0.20.0)
 
 PLATFORMS
   ruby
