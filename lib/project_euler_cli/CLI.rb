@@ -22,19 +22,23 @@ class CLI
     print "e: "
     input = gets.strip
 
-    puts
-
     if input == "l"
       # Enter problem number to view details
       # Next Page (n) / Prev Page (p)
       # Go to Page # by entering (g#)
-      main_menu
+
+      ArchiveViewer.display_page(1)
+
     elsif input == "s"
+      print "Search: "
+      search_terms = gets.strip
 
+      ArchiveSearcher.search(search_terms)
 
-      main_menu
     elsif input.start_with?("g")
-      main_menu
+
+      ArchiveViewer.display_problem(input.gsub("g", ""))
+
     elsif input == "x"
       return
     else
