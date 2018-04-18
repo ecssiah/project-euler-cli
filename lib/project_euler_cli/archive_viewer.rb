@@ -44,6 +44,8 @@ class ArchiveViewer
   end
 
   def display_page(page_num)
+    page_num = [1, page_num, @num_pages].sort[1] #clamp
+
     unless @visited_pages.include?(page_num)
       load_page(page_num)
     end
@@ -59,7 +61,8 @@ class ArchiveViewer
   end
 
   def display_page_menu(cur_page)
-    puts "[#{cur_page}/#{@num_pages}] (n)ext (p)rev (g)oto e(x)it"
+    puts "[#{cur_page}/#{@num_pages}] Enter ID to view problem"
+    puts "(n)ext (p)rev (g)oto e(x)it"
     print "e: "
 
     input = gets.strip
@@ -71,6 +74,7 @@ class ArchiveViewer
     elsif input == 'p'
       display_page(cur_page - 1)
     elsif input.start_with?('g')
+      target_page =
       display_page(input.gsub('g', '').to_i)
     elsif input == 'x'
       return

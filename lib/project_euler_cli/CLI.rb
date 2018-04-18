@@ -22,7 +22,6 @@ class CLI
   def main_menu
     puts " -      List problems (l)      -"
     puts " -     Search archives (s)     -"
-    puts " -   Go to problem #23 (g23)   -"
     puts " -         To exit (x)         -"
     print "e: "
 
@@ -33,9 +32,6 @@ class CLI
       main_menu
     elsif input == 's'
       search_menu
-      main_menu
-    elsif input.start_with?('g')
-      problem_menu(input)
       main_menu
     elsif input == 'x'
       return
