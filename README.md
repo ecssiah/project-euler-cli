@@ -21,27 +21,43 @@ Or install it yourself as:
 ## Usage
 
 Main Menu:
+
   r - List recent problems
+
   l - List archived problems
+
   s - Search problems
+
   x - Exit program
 
 Display Page Menu:
+
  \# - View problem (i.e. Problem 314 = 314)
+
   n - Next page
+
   p - Previous page
+
   g - Go to the page number given after g (i.e. Page 12 = g12)
+
   x - Exit to main menu
 
 Display Problem Menu:
+
   b - Back to current page
+
   x - Exit to main menu
 
 Search Menu:
+
  \# - View problem (i.e. Problem 217 = 217)
+
   n - Next page
+
   p - Previous page
+
   s - Search again
+
   x - Exit to main menu
 
 ## Development
