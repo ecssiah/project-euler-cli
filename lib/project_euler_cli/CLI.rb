@@ -2,6 +2,11 @@ module ProjectEulerCli
 
 class CLI
 
+  def initialize
+    @archive_viewer = ArchiveViewer.new
+    @archive_searcher = ArchiveSearcher.new
+  end
+
   def start
     welcome
     main_menu
@@ -23,27 +28,35 @@ class CLI
     input = gets.strip
 
     if input == "l"
-      # Enter problem number to view details
-      # Next Page (n) / Prev Page (p)
-      # Go to Page # by entering (g#)
-
-      ArchiveViewer.display_page(1)
-
+      display_menu
     elsif input == "s"
-      print "Search: "
-      search_terms = gets.strip
-
-      ArchiveSearcher.search(search_terms)
-
+      search_menu
     elsif input.start_with?("g")
-
-      ArchiveViewer.display_problem(input.gsub("g", ""))
-
+      problem_menu(input)
     elsif input == "x"
       return
     else
       main_menu
     end
+  end
+
+  def display_menu
+    # Enter problem number to view details
+    # Next Page (n) / Prev Page (p)
+    # Go to Page # by entering (g#)
+
+    @archive_viewer.display_page(1)
+  end
+
+  def problem_menu(input)
+    @archive_viewer.display_problem(input.gsub("g", ""))
+  end
+
+  def search_menu
+    print "Search: "
+    search_terms = gets.strip
+
+    @archive_searcher.search(search_terms)
   end
 
 end

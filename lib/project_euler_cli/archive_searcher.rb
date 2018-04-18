@@ -2,16 +2,19 @@ module ProjectEulerCli
 
 class ArchiveSearcher
 
-  @@initial_search = true
+  def initialize
+    @initial_search = true
+    @keywords = {}
+  end
 
-  def self.load
+  def load_terms
     puts "loading..."
   end
 
-  def self.search(term)
-    if @@initial_search
-      @@initial_search = false
-      self.load
+  def search(term)
+    if @initial_search
+      @initial_search = false
+      load_terms
     end
 
     puts "searching..."
