@@ -30,7 +30,7 @@ Page Menu:
   - View problem number 314 (314)
   - Next page (n)
   - Previous page (p)
-  - Go to the page number 4 (g4)
+  - Go to page number 4 (g4)
   - Exit to main menu (x)
 
 Problem Menu:
