@@ -11,8 +11,15 @@ class ArchiveViewer
     @problems = Array.new(@num_problems, "")
   end
 
+  # Recent page is considered page 0, invalid pages return -1
   def get_page_from_problem_id(id)
-    id / 50 + 1
+    if id.between?(@num_problems - 9, @num_problems)
+      0
+    elsif id.between?(1, @num_problems - 10)
+      (id - 1)/ 50 + 1
+    else
+      -1
+    end
   end
 
   # Dynamically looking up the total number of problems and the page count will

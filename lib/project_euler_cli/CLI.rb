@@ -53,7 +53,7 @@ class CLI
 
     input = gets.strip
 
-    if input.to_i.between?(@av.num_problems, @av.num_problems - 9)
+    if input.to_i.between?(@av.num_problems - 9, @av.num_problems)
       problem_menu(input.to_i)
     elsif input == 'x'
       return
@@ -71,7 +71,7 @@ class CLI
 
     input = gets.strip
 
-    if input.to_i.between?(50 * (page_num - 1) + 1, 50 * page_num - 1)
+    if input.to_i.between?(50 * (page_num - 1) + 1, 50 * page_num)
       problem_menu(input.to_i)
     elsif input == 'n'
       page_menu(page_num + 1)
@@ -96,7 +96,8 @@ class CLI
     input = gets.strip
 
     if input == 'b'
-      page_menu(@av.get_page_from_problem_id(id))
+      page = @av.get_page_from_problem_id(id)
+      page == 0 ? recent_menu : page_menu(page)
     elsif input == 'x'
       return
     else
