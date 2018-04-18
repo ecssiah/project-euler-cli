@@ -3,4 +3,5 @@
 require 'bundler/setup'
 require 'project_euler_cli'
 
-ProjectEulerCli::CLI.new.start
+cli = ProjectEulerCli::CLI.new
+cli.start

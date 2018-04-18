@@ -25,15 +25,19 @@ class CLI
     puts " -   Go to problem #23 (g23)   -"
     puts " -         To exit (x)         -"
     print "e: "
+
     input = gets.strip
 
-    if input == "l"
+    if input == 'l'
       display_menu
-    elsif input == "s"
+      main_menu
+    elsif input == 's'
       search_menu
-    elsif input.start_with?("g")
+      main_menu
+    elsif input.start_with?('g')
       problem_menu(input)
-    elsif input == "x"
+      main_menu
+    elsif input == 'x'
       return
     else
       main_menu
