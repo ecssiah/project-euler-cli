@@ -20,12 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-```
--      List problems (l)      -
--     Search archives (s)     -
--   Go to problem #23 (g23)   -
--         To exit (x)         -
-```
+Main Menu:
+  r - List recent problems
+  l - List archived problems
+  s - Search problems
+  x - Exit
+
+Display Page Menu:
+  # - View problem (i.e. Problem 314 = 314)
+  n - Next page
+  p - Previous page
+  g - Go to the page number given after g (i.e. Page 12 = g12)
+  x - Exit
+
+Search Menu:
+  # - View problem (i.e. Problem 217 = 217)
+  n - Next page
+  p - Previous page
+  s - Search again
+  x - Exit
 
 ## Development
 
