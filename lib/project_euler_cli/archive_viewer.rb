@@ -118,7 +118,6 @@ class ArchiveViewer
     elsif input == 'p'
       display_page(cur_page - 1)
     elsif input.start_with?('g')
-      target_page =
       display_page(input.gsub('g', '').to_i)
     elsif input == 'x'
       return
