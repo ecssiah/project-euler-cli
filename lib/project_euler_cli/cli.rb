@@ -13,13 +13,11 @@ class CLI
   end
 
   def welcome
-
     puts
     puts "  ---------------------------------- "
     puts " [          Project Euler           ]"
     puts " [            e^iπ = -1             ]"
     puts "  ---------------------------------- "
-
   end
 
   def prompt
