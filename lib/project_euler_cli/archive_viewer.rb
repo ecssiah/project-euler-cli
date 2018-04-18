@@ -44,9 +44,7 @@ class ArchiveViewer
   end
 
   def display_recent
-    if @recent[0] == ""
-      load_recent
-    end
+    load_recent if @recent[0] == ""
 
     init_index = @num_problems
     init_index.downto(init_index - 9) do |i|
@@ -91,9 +89,7 @@ class ArchiveViewer
   def display_page(page_num)
     page_num = [1, page_num, @num_pages].sort[1] #clamp
 
-    unless @visited_pages.include?(page_num)
-      load_page(page_num)
-    end
+    load_page(page_num) unless @visited_pages.include?(page_num)
 
     init_index = (page_num - 1) * 50 + 1
 
