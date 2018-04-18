@@ -1,6 +1,7 @@
 module ProjectEulerCli
 
 class ArchiveViewer
+  attr_reader :num_problems, :num_pages
 
   def initialize
     lookup_totals
@@ -38,7 +39,7 @@ class ArchiveViewer
     i = @num_problems + 1
 
     problem_links.each do |link|
-      @problems[i -= 1] = link.text
+      @recent[i -= 1] = link.text
     end
   end
 
