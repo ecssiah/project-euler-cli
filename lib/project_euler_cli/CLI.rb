@@ -22,7 +22,7 @@ class CLI
   def main_menu
     puts " -     List recent problems (r)     -"
     puts " -    List archived problems (l)    -"
-    puts " -        Search archive (s)        -"
+    puts " -            Search (s)            -"
     puts " -             Exit (x)             -"
     print "e: "
 
@@ -42,18 +42,6 @@ class CLI
     else
       main_menu
     end
-  end
-
-  def display_menu
-    # Enter problem number to view details
-    # Next Page (n) / Prev Page (p)
-    # Go to Page # by entering (g#)
-
-    @archive_viewer.display_page(1)
-  end
-
-  def problem_menu(input)
-    @archive_viewer.display_problem(input.gsub("g", ""))
   end
 
 end
