@@ -3,11 +3,10 @@ module ProjectEulerCli
 class ArchiveViewer
 
   def initialize
-    @problems = {}
+    lookup_totals
 
     @visited_pages = []
-
-    lookup_totals
+    @problems = Array.new(@num_problems, "")
   end
 
   def get_page_from_problem_id(id)
@@ -35,6 +34,12 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
+    i = (page_num - 1) * 50
+
+    problem_links.each do |link|
+      @problems[i += 1] = link.text
+    end
+
     @visited_pages << page_num
   end
 
@@ -43,10 +48,35 @@ class ArchiveViewer
       load_page(page_num)
     end
 
-    puts "[#{page_num}/#{@num_pages}] (n)ext (p)rev"
+    init_index = (page_num - 1) * 50 + 1
+
+    for i in init_index...init_index + 50
+      puts "#{i} - #{@problems[i]}"
+    end
+
+    puts
+    display_page_menu(page_num)
+  end
+
+  def display_page_menu(cur_page)
+    puts "[#{cur_page}/#{@num_pages}] (n)ext (p)rev (g)oto e(x)it"
     print "e: "
+
     input = gets.strip
 
+    if input.to_i.between?(1, @num_pages)
+      display_problem(input.to_i)
+    elsif input == 'n'
+      display_page(cur_page + 1)
+    elsif input == 'p'
+      display_page(cur_page - 1)
+    elsif input.start_with?('g')
+      display_page(input.gsub('g', '').to_i)
+    elsif input == 'x'
+      return
+    else
+      display_page_menu(cur_page)
+    end
   end
 
   def display_problem(id)
