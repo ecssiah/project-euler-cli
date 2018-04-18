@@ -6,6 +6,7 @@ class ArchiveViewer
     lookup_totals
 
     @visited_pages = []
+    @recent = Array.new(10, "")
     @problems = Array.new(@num_problems, "")
   end
 
@@ -26,6 +27,49 @@ class ArchiveViewer
     # last problem in the archive pages. The total number of pages can be calculated
     # from its ID.
     @num_pages = get_page_from_problem_id(id_col.last.text.to_i - 1)
+  end
+
+  def load_recent
+    html = open("https://projecteuler.net/recent")
+    fragment = Nokogiri::HTML(html)
+
+    problem_links = fragment.css('#problems_table td a')
+
+    i = @num_problems + 1
+
+    problem_links.each do |link|
+      @problems[i -= 1] = link.text
+    end
+  end
+
+  def display_recent
+    if @recent[0] == ""
+      load_recent
+    end
+
+    init_index = @num_problems
+    init_index.downto(init_index - 9) do |i|
+      puts "#{i} - #{@problems[i]}"
+    end
+
+    puts
+    display_recent_menu
+  end
+
+  def display_recent_menu
+    puts "Enter ID to view problem"
+    puts "e(x)it"
+    print "e: "
+
+    input = gets.strip
+
+    if input.to_i.between?(@num_problems, @num_problems - 9)
+      display_problem(input.to_i)
+    elsif input == 'x'
+      return
+    else
+      display_recent_menu
+    end
   end
 
   def load_page(page_num)
