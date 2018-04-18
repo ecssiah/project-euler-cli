@@ -8,8 +8,8 @@ class ArchiveViewer
 
     @visited_pages = []
     @recent = []
-    @problems = Array.new(@num_problems, "")
-    @problem_details = Array.new(@num_problems, {})
+    @problems = Array.new(@num_problems - 9, "")
+    @problem_details = Array.new(@num_problems + 1, {})
   end
 
   # Recent page is considered page 0, invalid pages return -1
@@ -48,15 +48,16 @@ class ArchiveViewer
     problem_links = fragment.css('#problems_table td a')
 
     problem_links.each do |link|
-      @recent.unshift(link.text)
+      @recent << link.text
     end
   end
 
   def display_recent
     load_recent if @recent.empty?
 
-    index = @num_problems + 1
+    puts
 
+    index = @num_problems + 1
     @recent.each do |problem|
       puts "#{index -= 1} - #{problem}"
     end
@@ -79,11 +80,11 @@ class ArchiveViewer
 
   def display_page(page_num)
     page_num = [1, page_num, @num_pages].sort[1] #clamp
-
     load_page(page_num) unless @visited_pages.include?(page_num)
 
-    init_index = (page_num - 1) * 50 + 1
+    puts
 
+    init_index = (page_num - 1) * 50 + 1
     for i in init_index...init_index + 50
       puts "#{i} - #{@problems[i]}"
     end
@@ -105,6 +106,8 @@ class ArchiveViewer
   end
 
   def display_problem(id)
+    load_problem_details(id) if @problem_details[id].empty?
+
     puts
 
     if id > @num_problems - 10
@@ -115,9 +118,6 @@ class ArchiveViewer
 
     puts "Problem #{id}"
     puts
-
-    load_problem_details(id) if @problem_details[id].empty?
-
     puts @problem_details[id][:published]
     puts @problem_details[id][:solved_by]
     puts @problem_details[id][:difficulty] unless id > @num_problems - 10

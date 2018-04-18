@@ -13,10 +13,16 @@ class CLI
   end
 
   def welcome
+    puts
     puts "  ---------------------------------- "
     puts " [          Project Euler           ]"
     puts " [            e^iπ = -1             ]"
     puts "  ---------------------------------- "
+  end
+
+  def prompt
+    print "e: "
+    gets.strip
   end
 
   def main_menu
@@ -24,9 +30,8 @@ class CLI
     puts " -    List archived problems (l)    -"
     puts " -            Search (s)            -"
     puts " -             Exit (x)             -"
-    print "e: "
 
-    input = gets.strip
+    input = prompt
 
     if input == 'r'
       recent_menu
@@ -49,9 +54,8 @@ class CLI
 
     puts
     puts "e(x)it"
-    print "e: "
 
-    input = gets.strip
+    input = prompt
 
     if input.to_i.between?(@av.num_problems - 9, @av.num_problems)
       problem_menu(input.to_i)
@@ -67,9 +71,8 @@ class CLI
 
     puts
     puts "[#{page_num}/#{@av.num_pages}] (n)ext (p)rev (g)oto e(x)it"
-    print "e: "
 
-    input = gets.strip
+    input = prompt
 
     if input.to_i.between?(50 * (page_num - 1) + 1, 50 * page_num)
       problem_menu(input.to_i)
@@ -91,9 +94,8 @@ class CLI
 
     puts
     puts "(b)ack e(x)it"
-    print "e: "
 
-    input = gets.strip
+    input = prompt
 
     if input == 'b'
       page = @av.get_page_from_problem_id(id)
@@ -106,7 +108,7 @@ class CLI
   end
 
   def search_menu
-    print "Search: "
+    print "search: "
 
     search_terms = gets.strip
 
