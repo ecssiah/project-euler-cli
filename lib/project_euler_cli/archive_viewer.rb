@@ -9,6 +9,7 @@ class ArchiveViewer
     @visited_pages = []
     @recent = []
     @problems = Array.new(@num_problems, "")
+    @problem_details = Array.new(@num_problems, {})
   end
 
   # Recent page is considered page 0, invalid pages return -1
@@ -88,8 +89,40 @@ class ArchiveViewer
     end
   end
 
+  def load_problem_details(id)
+    html = open("https://projecteuler.net/problem=#{id}")
+    fragment = Nokogiri::HTML(html)
+
+    problem_info = fragment.css('div#problem_info span span')
+    details = problem_info.text.split(';')
+    @problem_details[id][:published] = details[0].strip
+    @problem_details[id][:solved_by] = details[1].strip
+
+    # recent problems do not have a difficult rating
+    if details.size > 2
+      @problem_details[id][:difficulty] = details[2].strip
+    end
+  end
+
   def display_problem(id)
-    puts id
+    puts
+
+    if id > @num_problems - 10
+      puts "#{@recent[@num_problems - id]}".upcase
+    else
+      puts "#{@problems[id]}".upcase
+    end
+
+    puts "Problem #{id}"
+    puts
+
+    load_problem_details(id) if @problem_details[id].empty?
+
+    puts @problem_details[id][:published]
+    puts @problem_details[id][:solved_by]
+    puts @problem_details[id][:difficulty] unless id > @num_problems - 10
+    puts
+    puts "https://projecteuler.net/problem=#{id}"
   end
 
 end
