@@ -50,7 +50,7 @@ class ArchiveViewer
 
     init_index = @num_problems
     init_index.downto(init_index - 9) do |i|
-      puts "#{i} - #{@problems[i]}"
+      puts "#{i} - #{@recent[i]}"
     end
 
     puts
