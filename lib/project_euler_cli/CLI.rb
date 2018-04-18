@@ -71,7 +71,7 @@ class CLI
 
     input = gets.strip
 
-    if input.to_i.between?(1, @av.num_pages)
+    if input.to_i.between?(50 * (page_num - 1) + 1, 50 * page_num - 1)
       problem_menu(input.to_i)
     elsif input == 'n'
       page_menu(page_num + 1)
