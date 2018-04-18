@@ -27,7 +27,7 @@ Main Menu:
   x - Exit program
 
 Display Page Menu:
-  # - View problem (i.e. Problem 314 = 314)
+ \# - View problem (i.e. Problem 314 = 314)
   n - Next page
   p - Previous page
   g - Go to the page number given after g (i.e. Page 12 = g12)
@@ -38,7 +38,7 @@ Display Problem Menu:
   x - Exit to main menu
 
 Search Menu:
-  # - View problem (i.e. Problem 217 = 217)
+ \# - View problem (i.e. Problem 217 = 217)
   n - Next page
   p - Previous page
   s - Search again
