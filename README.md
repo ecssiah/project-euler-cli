@@ -33,7 +33,7 @@ Page Menu:
   - Go to the page number 4 (g4)
   - Exit to main menu (x)
 
-roblem Menu:
+Problem Menu:
   - Back to current page (b)
   - Exit to main menu (x)
 
