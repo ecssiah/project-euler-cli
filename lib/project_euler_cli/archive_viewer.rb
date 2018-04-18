@@ -7,7 +7,7 @@ class ArchiveViewer
     lookup_totals
 
     @visited_pages = []
-    @recent = Array.new(10, "")
+    @recent = []
     @problems = Array.new(@num_problems, "")
   end
 
@@ -15,6 +15,9 @@ class ArchiveViewer
     id / 50 + 1
   end
 
+  # Dynamically looking up the total number of problems and the page count will
+  # allow the application to continue working after new problems and pages are
+  # added to the archive
   def lookup_totals
     html = open("https://projecteuler.net/recent")
     fragment = Nokogiri::HTML(html)
@@ -36,38 +39,18 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = @num_problems + 1
-
     problem_links.each do |link|
-      @recent[i -= 1] = link.text
+      @recent.unshift(link.text)
     end
   end
 
   def display_recent
-    load_recent if @recent[0] == ""
+    load_recent if @recent.empty?
 
-    init_index = @num_problems
-    init_index.downto(init_index - 9) do |i|
-      puts "#{i} - #{@recent[i]}"
-    end
+    index = @num_problems + 1
 
-    puts
-    display_recent_menu
-  end
-
-  def display_recent_menu
-    puts "Enter ID to view problem"
-    puts "e(x)it"
-    print "e: "
-
-    input = gets.strip
-
-    if input.to_i.between?(@num_problems, @num_problems - 9)
-      display_problem(input.to_i)
-    elsif input == 'x'
-      return
-    else
-      display_recent_menu
+    @recent.each do |problem|
+      puts "#{index -= 1} - #{problem}"
     end
   end
 
@@ -95,31 +78,6 @@ class ArchiveViewer
 
     for i in init_index...init_index + 50
       puts "#{i} - #{@problems[i]}"
-    end
-
-    puts
-    display_page_menu(page_num)
-  end
-
-  def display_page_menu(cur_page)
-    puts "[#{cur_page}/#{@num_pages}] Enter ID to view problem"
-    puts "(n)ext (p)rev (g)oto e(x)it"
-    print "e: "
-
-    input = gets.strip
-
-    if input.to_i.between?(1, @num_pages)
-      display_problem(input.to_i)
-    elsif input == 'n'
-      display_page(cur_page + 1)
-    elsif input == 'p'
-      display_page(cur_page - 1)
-    elsif input.start_with?('g')
-      display_page(input.gsub('g', '').to_i)
-    elsif input == 'x'
-      return
-    else
-      display_page_menu(cur_page)
     end
   end
 

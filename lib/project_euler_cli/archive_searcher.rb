@@ -11,13 +11,6 @@ class ArchiveSearcher
     puts "loading..."
   end
 
-  def search_menu
-    print "Search: "
-    search_terms = gets.strip
-
-    search(search_terms)
-  end
-
   def search(term)
     if @initial_search
       @initial_search = false
