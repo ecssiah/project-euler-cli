@@ -4,7 +4,7 @@ class ArchiveController
   def initialize
     @archive_data = {}
 
-    lookup_totals
+    self.lookup_totals
 
     @archive_data[:visited_pages] = []
     @archive_data[:problems] = Array.new(@archive_data[:num_problems] - 9, "")

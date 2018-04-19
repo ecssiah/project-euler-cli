@@ -55,7 +55,7 @@ class ArchiveSearcher
 
     @archive_data[:problems].each.with_index do |string, i|
       terms_arr.each do |term|
-        @results << i + 1 if string.include?(term.downcase)
+        @results << i if string.include?(term.downcase)
       end
     end
   end
