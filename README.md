@@ -39,8 +39,7 @@ Problem Menu:
 
 Search Menu:
   - View problem 217 (217)
-  - Next page (n)
-  - Previous page (p)
+  - Back to search results (b)
   - Search again (s)
   - Exit to main menu (x)
 

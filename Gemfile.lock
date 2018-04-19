@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    project_euler_cli (0.1.0)
+    project_euler_cli (1.0.0)
       nokogiri (~> 1.8)
 
 GEM
