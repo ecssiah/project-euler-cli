@@ -4,7 +4,7 @@ class CLI
 
   def initialize
     begin
-      Timeout::timeout(5) do
+      Timeout::timeout(4) do
         @av = ArchiveViewer.new
         @as = ArchiveSearcher.new
       end
@@ -12,7 +12,7 @@ class CLI
       start
     rescue => e
       banner
-      puts "       ! Project Unavailable !       "
+      puts "    ! Project Euler Unavailable !    "
     end
   end
 
