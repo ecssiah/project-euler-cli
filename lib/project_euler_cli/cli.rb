@@ -129,7 +129,7 @@ class CLI
 
     if @as.results.include?(input.to_i)
       @av.display_problem(input.to_i)
-      search_results_menu
+      problem_menu(input.to_i)
     elsif input == 's'
       search_menu
     elsif input == 'x'

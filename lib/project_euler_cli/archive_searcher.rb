@@ -53,6 +53,18 @@ class ArchiveSearcher
         @keywords[i += 1] = link.text.downcase
       end
     end
+
+    # !!! TODO Add keywords from the recent page !!!
+
+    html = open("https://projecteuler.net/recent")
+    fragment = Nokogiri::HTML(html)
+
+    problem_links = fragment.css('#problems_table td a')
+
+    i = @num_problems
+    problem_links.each do |link|
+      @keywords[i -= 1] = link.text.downcase
+    end
   end
 
   def search(terms)
