@@ -27,10 +27,10 @@ Main Menu:
   - Exit program (x)
 
 Page Menu:
-  - View problem number 314 (314)
+  - View problem 314 (314)
   - Next page (n)
   - Previous page (p)
-  - Go to page number 4 (g4)
+  - Go to page 4 (g4)
   - Exit to main menu (x)
 
 Problem Menu:
@@ -38,7 +38,7 @@ Problem Menu:
   - Exit to main menu (x)
 
 Search Menu:
-  - View problem number 217 (217)
+  - View problem 217 (217)
   - Next page (n)
   - Previous page (p)
   - Search again (s)
