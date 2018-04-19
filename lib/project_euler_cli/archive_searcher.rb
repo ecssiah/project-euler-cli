@@ -1,10 +1,11 @@
 module ProjectEulerCli
 
 class ArchiveSearcher
+  attr_accessor :keywords
 
   def initialize
     @initial_search = true
-    @keywords = {}
+    @keywords = []
   end
 
   def load_terms

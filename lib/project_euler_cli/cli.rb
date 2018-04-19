@@ -3,8 +3,17 @@ module ProjectEulerCli
 class CLI
 
   def initialize
-    @av = ArchiveViewer.new
-    @as = ArchiveSearcher.new
+    begin
+      Timeout::timeout(5) do
+        @av = ArchiveViewer.new
+        @as = ArchiveSearcher.new
+      end
+
+      start
+    rescue => e
+      welcome
+      puts "       ! Project Unavailable !       "
+    end
   end
 
   def start

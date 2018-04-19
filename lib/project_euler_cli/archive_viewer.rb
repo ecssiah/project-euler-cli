@@ -47,9 +47,7 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
-    problem_links.each do |link|
-      @recent << link.text
-    end
+    problem_links.each { |link| @recent << link.text }
   end
 
   def display_recent
@@ -58,9 +56,7 @@ class ArchiveViewer
     puts
 
     index = @num_problems + 1
-    @recent.each do |problem|
-      puts "#{index -= 1} - #{problem}"
-    end
+    @recent.each { |problem| puts "#{index -= 1} - #{problem}" }
   end
 
   def load_page(page_num)
@@ -70,10 +66,7 @@ class ArchiveViewer
     problem_links = fragment.css('#problems_table td a')
 
     i = (page_num - 1) * 50
-
-    problem_links.each do |link|
-      @problems[i += 1] = link.text
-    end
+    problem_links.each { |link| @problems[i += 1] = link.text }
 
     @visited_pages << page_num
   end
