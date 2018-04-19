@@ -7,7 +7,7 @@ class ArchiveController
     self.lookup_totals
 
     @archive_data[:visited_pages] = []
-    @archive_data[:problems] = Array.new(@archive_data[:num_problems] - 9, "")
+    @archive_data[:problems] = Array.new(@archive_data[:num_problems] + 1, "")
     @archive_data[:problem_details] = Array.new(@archive_data[:num_problems] + 1, {})
 
     @av = ArchiveViewer.new(@archive_data)
