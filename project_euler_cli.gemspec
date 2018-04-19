@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{This is a command line interface for browsing Project Euler.}
   spec.description   = %q{This is a basic command line interface that allows the user to browse through the archive of problems maintained by Project Euler. It also offers a search feature to quickly locate relevant problems.}
-  spec.homepage      = "https://github.com/ecssiah/project-euler-cli-app"
+  spec.homepage      = "https://github.com/ecssiah/project-euler-cli"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
