@@ -6,10 +6,9 @@ class ArchiveSearcher
   def initialize(archive_data)
     @archive_data = archive_data
 
+    @results = []
     @searching = false
     @initial_search = true
-
-    @results = []
   end
 
   def load_terms

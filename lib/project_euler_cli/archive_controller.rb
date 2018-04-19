@@ -1,8 +1,6 @@
 module ProjectEulerCli
 
 class ArchiveController
-  attr_reader :av, :as
-
   def initialize
     @archive_data = {}
 
@@ -24,8 +22,20 @@ class ArchiveController
     @archive_data[:num_problems]
   end
 
+  def searching=(searching)
+    @as.searching = searching
+  end
+
+  def searching
+    @as.searching
+  end
+
+  def search(terms)
+    @as.search(terms)
+  end
+
   # Recent page is considered page 0, invalid pages return -1
-  def get_page_from_problem_id(id)
+  def get_page(id)
     if id.between?(@archive_data[:num_problems] - 9, @archive_data[:num_problems])
       0
     elsif id.between?(1, @archive_data[:num_problems] - 10)
@@ -50,7 +60,27 @@ class ArchiveController
     # The last problem on the recent page has an ID that is one larger than the
     # last problem in the archive pages. The total number of pages can be calculated
     # from its ID.
-    @archive_data[:num_pages] = get_page_from_problem_id(id_col.last.text.to_i - 1)
+    @archive_data[:num_pages] = get_page(id_col.last.text.to_i - 1)
+  end
+
+  def results_include?(id)
+    @as.results.include?(id)
+  end
+
+  def display_recent
+    @av.display_recent
+  end
+
+  def display_page(page)
+    @av.display_page(page)
+  end
+
+  def display_results
+    @av.display_results(@as.results)
+  end
+
+  def display_problem(id)
+    @av.display_problem(id)
   end
 
 end
