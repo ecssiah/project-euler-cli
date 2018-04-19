@@ -11,17 +11,17 @@ class CLI
 
       start
     rescue => e
-      welcome
+      banner
       puts "       ! Project Unavailable !       "
     end
   end
 
   def start
-    welcome
+    banner
     main_menu
   end
 
-  def welcome
+  def banner
     puts
     puts "  ---------------------------------- "
     puts " [          Project Euler           ]"
