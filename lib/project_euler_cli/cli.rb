@@ -111,7 +111,7 @@ class CLI
   end
 
   def search_results_menu
-    @ac.av.display_results(@ac.as.results, @ac.as.keywords)
+    @ac.av.display_results(@ac.as.results)
 
     puts
     puts "(s)earch e(x)it"

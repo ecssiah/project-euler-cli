@@ -83,11 +83,11 @@ class ArchiveViewer
     puts "https://projecteuler.net/problem=#{id}"
   end
 
-  def display_results(results, keywords)
+  def display_results(results)
     puts
 
     results.each do |result|
-      puts "#{result} - #{keywords[result - 1]} "
+      puts "#{result} - #{@archive_data[:problems][result]} "
     end
   end
 
