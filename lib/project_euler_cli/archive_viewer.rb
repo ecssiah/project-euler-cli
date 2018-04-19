@@ -65,12 +65,13 @@ class ArchiveViewer
     fragment = Nokogiri::HTML(html)
 
     problem_info = fragment.css('div#problem_info span span')
+
     details = problem_info.text.split(';')
     @problem_details[id][:published] = details[0].strip
     @problem_details[id][:solved_by] = details[1].strip
 
     # recent problems do not have a difficult rating
-    if details.size > 2
+    unless id >= @num_problems - 9
       @problem_details[id][:difficulty] = details[2].strip
     end
   end
@@ -79,18 +80,12 @@ class ArchiveViewer
     load_problem_details(id) if @problem_details[id].empty?
 
     puts
-
-    if id > @num_problems - 10
-      puts "#{@recent[@num_problems - id]}".upcase
-    else
-      puts "#{@problems[id]}".upcase
-    end
-
+    puts "#{@problems[id]}".upcase
     puts "Problem #{id}"
     puts
     puts @problem_details[id][:published]
     puts @problem_details[id][:solved_by]
-    puts @problem_details[id][:difficulty] unless id > @num_problems - 10
+    puts @problem_details[id][:difficulty] unless id >= @num_problems - 9
     puts
     puts "https://projecteuler.net/problem=#{id}"
   end
