@@ -56,7 +56,7 @@ class ArchiveViewer
 
     init_index = (page_num - 1) * 50 + 1
     for i in init_index...init_index + 50
-      puts "#{i} - #{@problems[i]}"
+      puts "#{i} - #{@problems[i]}" unless i > @num_problems - 10
     end
   end
 
