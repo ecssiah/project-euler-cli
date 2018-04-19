@@ -29,25 +29,25 @@ class ArchiveViewer
     end
   end
 
-  def load_page(page_num)
-    html = open("https://projecteuler.net/archives;page=#{page_num}")
+  def load_page(page)
+    html = open("https://projecteuler.net/archives;page=#{page}")
     fragment = Nokogiri::HTML(html)
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = (page_num - 1) * 50
+    i = (page - 1) * 50
     problem_links.each { |link| @archive_data[:problems][i += 1] = link.text }
 
-    @archive_data[:visited_pages] << page_num
+    @archive_data[:visited_pages] << page
   end
 
-  def display_page(page_num)
-    page_num = [1, page_num, @archive_data[:num_pages]].sort[1] #clamp
-    load_page(page_num) unless @archive_data[:visited_pages].include?(page_num)
+  def display_page(page)
+    page = [1, page, @archive_data[:num_pages]].sort[1] #clamp
+    load_page(page) unless @archive_data[:visited_pages].include?(page)
 
     puts
 
-    init_index = (page_num - 1) * 50 + 1
+    init_index = (page - 1) * 50 + 1
     for i in init_index...init_index + 50
       puts "#{i} - #{@archive_data[:problems][i]}" unless i > @archive_data[:num_problems] - 10
     end
