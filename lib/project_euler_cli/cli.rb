@@ -108,7 +108,6 @@ class CLI
 
     if input == 'b'
       if @as.searching
-        @av.display_results(@as.results, @as.keywords)
         search_results_menu
       else
         page = @av.get_page_from_problem_id(id)
@@ -122,13 +121,14 @@ class CLI
   end
 
   def search_results_menu
+    @av.display_results(@as.results, @as.keywords)
+
     puts
     puts "(s)earch e(x)it"
 
     input = prompt
 
     if @as.results.include?(input.to_i)
-      @av.display_problem(input.to_i)
       problem_menu(input.to_i)
     elsif input == 's'
       search_menu
@@ -144,10 +144,7 @@ class CLI
     print "search: "
 
     search_terms = gets.strip
-
     @as.search(search_terms)
-    @av.display_results(@as.results, @as.keywords)
-
     search_results_menu
   end
 

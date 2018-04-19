@@ -120,7 +120,7 @@ class ArchiveViewer
 
   def display_results(results, keywords)
     puts
-    
+
     results.each do |result|
       puts "#{result} - #{keywords[result - 1]} "
     end
