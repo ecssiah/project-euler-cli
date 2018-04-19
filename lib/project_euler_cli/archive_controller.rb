@@ -1,6 +1,7 @@
 module ProjectEulerCli
 
 class ArchiveController
+  
   def initialize
     @archive_data = {}
 
@@ -39,7 +40,7 @@ class ArchiveController
     if id.between?(@archive_data[:num_problems] - 9, @archive_data[:num_problems])
       0
     elsif id.between?(1, @archive_data[:num_problems] - 10)
-      (id - 1)/ 50 + 1
+      (id - 1) / 50 + 1
     else
       -1
     end

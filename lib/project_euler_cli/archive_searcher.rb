@@ -1,7 +1,8 @@
 module ProjectEulerCli
 
 class ArchiveSearcher
-  attr_accessor :results, :searching
+  attr_reader :results
+  attr_accessor :searching
 
   def initialize(archive_data)
     @archive_data = archive_data
