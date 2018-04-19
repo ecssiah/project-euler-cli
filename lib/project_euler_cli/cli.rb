@@ -3,8 +3,7 @@ module ProjectEulerCli
 class CLI
 
   def initialize
-    @av = ArchiveViewer.new
-    @as = ArchiveSearcher.new
+    @ac = ArchiveController.new
   end
 
   def start
@@ -50,14 +49,14 @@ class CLI
   end
 
   def recent_menu
-    @av.display_recent
+    @ac.av.display_recent
 
     puts
     puts "e(x)it"
 
     input = prompt
 
-    if input.to_i.between?(@av.num_problems - 9, @av.num_problems)
+    if input.to_i.between?(@ac.num_problems - 9, @ac.num_problems)
       problem_menu(input.to_i)
     elsif input == 'x'
       return
@@ -67,10 +66,10 @@ class CLI
   end
 
   def page_menu(page_num)
-    @av.display_page(page_num)
+    @ac.av.display_page(page_num)
 
     puts
-    puts "[#{page_num}/#{@av.num_pages}] (n)ext (p)rev (g)oto e(x)it"
+    puts "[#{page_num}/#{@ac.num_pages}] (n)ext (p)rev (g)oto e(x)it"
 
     input = prompt
 
@@ -90,7 +89,7 @@ class CLI
   end
 
   def problem_menu(id)
-    @av.display_problem(id)
+    @ac.av.display_problem(id)
 
     puts
     puts "(b)ack e(x)it"
@@ -98,10 +97,10 @@ class CLI
     input = prompt
 
     if input == 'b'
-      if @as.searching
+      if @ac.as.searching
         search_results_menu
       else
-        page = @av.get_page_from_problem_id(id)
+        page = @ac.get_page_from_problem_id(id)
         page == 0 ? recent_menu : page_menu(page)
       end
     elsif input == 'x'
@@ -112,19 +111,19 @@ class CLI
   end
 
   def search_results_menu
-    @av.display_results(@as.results, @as.keywords)
+    @ac.av.display_results(@ac.as.results, @ac.as.keywords)
 
     puts
     puts "(s)earch e(x)it"
 
     input = prompt
 
-    if @as.results.include?(input.to_i)
+    if @ac.as.results.include?(input.to_i)
       problem_menu(input.to_i)
     elsif input == 's'
       search_menu
     elsif input == 'x'
-      @as.searching = false
+      @ac.as.searching = false
       return
     else
       search_results_menu
@@ -135,7 +134,7 @@ class CLI
     print "search: "
 
     search_terms = gets.strip
-    @as.search(search_terms)
+    @ac.as.search(search_terms)
     search_results_menu
   end
 

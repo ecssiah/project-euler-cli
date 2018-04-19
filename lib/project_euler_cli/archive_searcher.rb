@@ -1,24 +1,22 @@
 module ProjectEulerCli
 
 class ArchiveSearcher
-  include ArchiveInfo
-
   attr_accessor :keywords, :results, :searching
 
-  def initialize
+  def initialize(archive_data)
+    @archive_data = archive_data
+
     @searching = false
     @initial_search = true
 
-    lookup_totals
-
     @results = []
-    @keywords = Array.new(@num_problems, "")
+    @keywords = Array.new(@archive_data[:num_problems], "")
   end
 
   def load_terms
     puts "updating keywords..."
 
-    (1..@num_pages).each do |page|
+    (1..@archive_data[:num_pages]).each do |page|
       html = open("https://projecteuler.net/archives;page=#{page}")
       fragment = Nokogiri::HTML(html)
 
@@ -30,14 +28,12 @@ class ArchiveSearcher
       end
     end
 
-    # !!! TODO Add keywords from the recent page !!!
-
     html = open("https://projecteuler.net/recent")
     fragment = Nokogiri::HTML(html)
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = @num_problems
+    i = @archive_data[:num_problems]
     problem_links.each do |link|
       @keywords[i -= 1] = link.text.downcase
     end
