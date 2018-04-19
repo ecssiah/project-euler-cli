@@ -3,8 +3,6 @@ module ProjectEulerCli
 class ArchiveViewer
   include ArchiveInfo
 
-  attr_reader :num_problems, :num_pages
-
   def initialize
     lookup_totals
 
