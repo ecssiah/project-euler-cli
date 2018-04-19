@@ -10,6 +10,7 @@ class ArchiveViewer
     @recent = []
     @problems = Array.new(@num_problems - 9, "")
     @problem_details = Array.new(@num_problems + 1, {})
+
   end
 
   def load_recent
@@ -18,16 +19,21 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
-    problem_links.each { |link| @recent << link.text }
+    problem_links.each do |link|
+      @problems.insert(@num_problems - 9, link.text)
+    end
+
+    @visited_pages << 0
   end
 
   def display_recent
-    load_recent if @recent.empty?
+    load_recent unless @visited_pages.include?(0)
 
     puts
 
-    index = @num_problems + 1
-    @recent.each { |problem| puts "#{index -= 1} - #{problem}" }
+    (@num_problems).downto(@num_problems - 9) do |i|
+      puts "#{i} - #{@problems[i]}"
+    end
   end
 
   def load_page(page_num)
