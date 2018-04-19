@@ -3,17 +3,17 @@ module ProjectEulerCli
 class CLI
 
   def initialize
-    begin
-      Timeout::timeout(4) do
-        @av = ArchiveViewer.new
-        @as = ArchiveSearcher.new
-      end
+    # begin
+    #   Timeout::timeout(8) do
+    @av = ArchiveViewer.new
+    @as = ArchiveSearcher.new
+      # end
 
       start
-    rescue => e
-      banner
-      puts "    ! Project Euler Unavailable !    "
-    end
+    # rescue => e
+    #   banner
+    #   puts "    ! Project Euler Unavailable !    "
+    # end
   end
 
   def start
@@ -107,12 +107,36 @@ class CLI
     input = prompt
 
     if input == 'b'
-      page = @av.get_page_from_problem_id(id)
-      page == 0 ? recent_menu : page_menu(page)
+      if @as.searching
+        @av.display_results(@as.results, @as.keywords)
+        search_results_menu
+      else
+        page = @av.get_page_from_problem_id(id)
+        page == 0 ? recent_menu : page_menu(page)
+      end
     elsif input == 'x'
       return
     else
       problem_menu(id)
+    end
+  end
+
+  def search_results_menu
+    puts
+    puts "(s)earch e(x)it"
+
+    input = prompt
+
+    if @as.results.include?(input.to_i)
+      @av.display_problem(input.to_i)
+      search_results_menu
+    elsif input == 's'
+      search_menu
+    elsif input == 'x'
+      @as.searching = false
+      return
+    else
+      search_results_menu
     end
   end
 
@@ -122,6 +146,9 @@ class CLI
     search_terms = gets.strip
 
     @as.search(search_terms)
+    @av.display_results(@as.results, @as.keywords)
+
+    search_results_menu
   end
 
 end

@@ -1,62 +1,76 @@
 module ProjectEulerCli
 
 class ArchiveSearcher
-  attr_accessor :keywords, :results
+  attr_accessor :keywords, :results, :searching
 
   def initialize
+    @searching = false
     @initial_search = true
+
+    lookup_totals
+
     @results = []
-    @keywords = []
+    @keywords = Array.new(@num_problems, "")
+  end
+
+  # Recent page is considered page 0, invalid pages return -1
+  def get_page_from_problem_id(id)
+    if id.between?(@num_problems - 9, @num_problems)
+      0
+    elsif id.between?(1, @num_problems - 10)
+      (id - 1)/ 50 + 1
+    else
+      -1
+    end
+  end
+
+  def lookup_totals
+    html = open("https://projecteuler.net/recent")
+    fragment = Nokogiri::HTML(html)
+
+    id_col = fragment.css('#problems_table td.id_column')
+
+    # The newest problem is the first one listed on the recent page. The ID of this
+    # problem will always equal the total number of problems.
+    @num_problems = id_col.first.text.to_i
+    # The last problem on the recent page has an ID that is one larger than the
+    # last problem in the archive pages. The total number of pages can be calculated
+    # from its ID.
+    @num_pages = get_page_from_problem_id(id_col.last.text.to_i - 1)
   end
 
   def load_terms
     puts "updating keywords..."
 
-    # test data
-    @keywords[0] = "Multiples of 3 and 5"
-    @keywords[1] = "Even Fibonacci numbers"
-    @keywords[2] = "Largest prime factor"
-    @keywords[3] = "Largest palindrome product"
-    @keywords[4] = "Smallest multiple"
-    @keywords[5] = "Sum square difference"
-    @keywords[6] = "10001st prime"
-    @keywords[7] = "Largest product in a series"
-    @keywords[8] = "Special Pythagorean triplet"
-    @keywords[9] = "Summation of primes"
-    @keywords[10] = "Largest product in a grid"
-    @keywords[11] = "Highly divisible triangular number"
-    @keywords[12] = "Large sum"
-    @keywords[13] = "Longest Collatz sequence"
-    @keywords[14] = "Lattice paths"
-    @keywords[15] = "Power digit sum"
-    @keywords[16] = "Number letter counts"
-    @keywords[17] = "Maximum path sum I"
-    @keywords[18] = "Counting Sundays"
-    @keywords[19] = "Factorial digit sum"
+    (1..@num_pages).each do |page|
+      html = open("https://projecteuler.net/archives;page=#{page}")
+      fragment = Nokogiri::HTML(html)
 
-    @keywords.each { |string| string.downcase }
+      problem_links = fragment.css('#problems_table td a')
+
+      i = (page - 1) * 50 - 1
+      problem_links.each do |link|
+        @keywords[i += 1] = link.text.downcase
+      end
+    end
   end
 
-  def search(term)
-    puts "searching..."
-
-    @results.clear
-    term.downcase
-
+  def search(terms)
     if @initial_search
       @initial_search = false
       load_terms
     end
 
+    puts "searching..."
+    @searching = true
+
+    @results.clear
+    terms_arr = terms.downcase.split(' ')
+
     @keywords.each.with_index do |string, i|
-      @results << i + 1 if string.include?(term)
-    end
-  end
-
-
-  def test_output
-    @results.each do |result|
-      puts "#{result} - #{@keywords[result - 1]}"
+      terms_arr.each do |term|
+        @results << i + 1 if string.include?(term)
+      end
     end
   end
 
