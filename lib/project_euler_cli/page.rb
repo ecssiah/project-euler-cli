@@ -19,10 +19,6 @@ class Page
     @@visited
   end
 
-  def self.visited=(visited)
-    @@visited = visited
-  end
-
 end
 
 end

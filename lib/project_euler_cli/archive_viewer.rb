@@ -14,7 +14,7 @@ class ArchiveViewer
 
     puts
 
-    Problem.total.downto(Problem.total - 9) { |i| puts "#{i} - #{@problems[i].title}" }
+    (Problem.total).downto(Problem.total - 9) { |i| puts "#{i} - #{@problems[i].title}" }
   end
 
   # Displays the problem numbers and titles for an individual page of the archive.
