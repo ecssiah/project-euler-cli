@@ -2,6 +2,8 @@ module ProjectEulerCli
 
 class Page
 
+  PROBLEMS_PER_PAGE = 50
+
   @@total = 0
   @@visited = []
 

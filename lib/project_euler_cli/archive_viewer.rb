@@ -13,8 +13,8 @@ class ArchiveViewer
     load_recent(@problems)
 
     puts
-    
-    (Problem.total).downto(Problem.total - 9) { |i| puts "#{i} - #{@problems[i].title}" }
+
+    Problem.total.downto(Problem.total - 9) { |i| puts "#{i} - #{@problems[i].title}" }
   end
 
   # Displays the problem numbers and titles for an individual page of the archive.
@@ -23,8 +23,8 @@ class ArchiveViewer
 
     puts
 
-    start = (page - 1) * 50 + 1
-    for i in start...start + 50
+    start = (page - 1) * Page::PROBLEMS_PER_PAGE + 1
+    for i in start...start + Page::PROBLEMS_PER_PAGE
       puts "#{i} - #{@problems[i].title}" unless i >= Problem.total - 9
     end
   end

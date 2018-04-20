@@ -76,7 +76,7 @@ class CLI
 
     input = prompt
 
-    if input.to_i.between?(50 * (page - 1) + 1, 50 * page)
+    if input.to_i.between?(Page::PROBLEMS_PER_PAGE * (page - 1) + 1, Page::PROBLEMS_PER_PAGE * page)
       problem_menu(input.to_i)
     elsif input == 'n'
       page_menu(page + 1)
