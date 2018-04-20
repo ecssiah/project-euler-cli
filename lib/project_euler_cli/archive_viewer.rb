@@ -87,8 +87,6 @@ class ArchiveViewer
   def display_problem(id)
     load_problem_details(id) if @archive_data[:problem_details][id].empty?
 
-    puts @archive_data[:problem_details].size
-
     puts
     puts "#{@archive_data[:problems][id]}".upcase
     puts "Problem #{id}"
