@@ -1,7 +1,7 @@
 module ProjectEulerCli
 
 class Problem
-  attr_accessor :id, :title, :published, :solved_by, :difficulty
+  attr_accessor :title, :published, :solved_by, :difficulty
 
   @@total = 0
 
