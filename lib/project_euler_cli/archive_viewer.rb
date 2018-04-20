@@ -14,8 +14,10 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
+    i = @archive_data[:num_problems]
     problem_links.each do |link|
-      @archive_data[:problems].insert(@archive_data[:num_problems] - 9, link.text)
+      @archive_data[:problems][i] = link.text
+      i -= 1
     end
 
     @archive_data[:visited_pages] << 0
@@ -74,7 +76,7 @@ class ArchiveViewer
     @archive_data[:problem_details][id][:solved_by] = details[1].strip
 
     # recent problems do not have a difficult rating
-    unless id >= @archive_data[:num_problems] - 9
+    if id < @archive_data[:num_problems] - 9
       @archive_data[:problem_details][id][:difficulty] = details[2].strip
     end
   end
@@ -84,6 +86,8 @@ class ArchiveViewer
   # * +id+ - ID of the problem to be displayed
   def display_problem(id)
     load_problem_details(id) if @archive_data[:problem_details][id].empty?
+
+    puts @archive_data[:problem_details].size
 
     puts
     puts "#{@archive_data[:problems][id]}".upcase

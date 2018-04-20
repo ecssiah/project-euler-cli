@@ -44,8 +44,10 @@ class ArchiveSearcher
 
       problem_links = fragment.css('#problems_table td a')
 
+      i = @archive_data[:num_problems]
       problem_links.each do |link|
-        @archive_data[:problems].insert(@archive_data[:num_problems] - 9, link.text)
+        @archive_data[:problems][i] = link.text
+        i -= 1
       end
 
       @archive_data[:visited_pages] << 0
