@@ -50,7 +50,6 @@ class ArchiveViewer
 
   # Displays the problem numbers and titles for an individual page of the archive.
   def display_page(page)
-    page = [1, page, @archive_data[:num_pages]].sort[1] #clamp
     load_page(page) unless @archive_data[:visited_pages].include?(page)
 
     puts

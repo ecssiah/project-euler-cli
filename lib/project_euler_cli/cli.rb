@@ -68,6 +68,7 @@ class CLI
   end
 
   def page_menu(page)
+    page = [1, page, @ac.num_pages].sort[1] #clamp
     @ac.display_page(page)
 
     puts
