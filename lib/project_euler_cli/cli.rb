@@ -1,5 +1,7 @@
-module ProjectEulerCli
+module ProjectEulerCli #:nodoc:
 
+# Manages the command line interface for the program. It uses the ArchiveController
+# to access the site data.
 class CLI
 
   def initialize

@@ -1,6 +1,8 @@
 module ProjectEulerCli
 
+# Handles searching the problems
 class ArchiveSearcher
+  # Array of IDs corresponding to the problems found in last search
   attr_reader :results
   attr_accessor :searching
 
@@ -12,9 +14,11 @@ class ArchiveSearcher
     @initial_search = true
   end
 
+  # Loads the problem numbers and titles for every page that is not loaded.
   def load_terms
     puts "updating keywords..."
 
+    # Loading each archive page
     (1..@archive_data[:num_pages]).each do |page|
       unless @archive_data[:visited_pages].include?(page)
         html = open("https://projecteuler.net/archives;page=#{page}")
@@ -32,6 +36,7 @@ class ArchiveSearcher
       end
     end
 
+    # Loading the recent problems
     unless @archive_data[:visited_pages].include?(0)
       html = open("https://projecteuler.net/recent")
       fragment = Nokogiri::HTML(html)
@@ -46,6 +51,10 @@ class ArchiveSearcher
     end
   end
 
+  # Performs a simple search of the problems. It accepts multiple terms. Results
+  # will contain *any* of the terms
+  #
+  # * +terms+ - String of search terms
   def search(terms)
     if @initial_search
       @initial_search = false
@@ -53,9 +62,9 @@ class ArchiveSearcher
     end
 
     puts "searching..."
+    @results.clear
     @searching = true
 
-    @results.clear
     terms.downcase.split(' ').each do |term|
       for i in 1..@archive_data[:num_problems]
         if @archive_data[:problems][i].downcase.include?(term.downcase)
