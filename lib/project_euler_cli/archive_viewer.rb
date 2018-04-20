@@ -93,7 +93,7 @@ class ArchiveViewer
     puts @archive_data[:problem_details][id][:published]
     puts @archive_data[:problem_details][id][:solved_by]
 
-    unless id >= @archive_data[:num_problems] - 9
+    if id < @archive_data[:num_problems] - 9
       puts @archive_data[:problem_details][id][:difficulty]
     end
 
@@ -108,7 +108,7 @@ class ArchiveViewer
     puts
 
     list.each do |id|
-      puts "#{id} - #{@archive_data[:problems][id]} "
+      puts "#{id} - #{@archive_data[:problems][id]}"
     end
   end
 

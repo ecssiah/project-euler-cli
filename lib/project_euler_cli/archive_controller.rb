@@ -9,12 +9,12 @@ class ArchiveController
 
     lookup_totals
 
+    @av = ArchiveViewer.new(@archive_data)
+    @as = ArchiveSearcher.new(@archive_data)
+
     @archive_data[:visited_pages] = []
     @archive_data[:problems] = Array.new(@archive_data[:num_problems] + 1, "")
     @archive_data[:problem_details] = Array.new(@archive_data[:num_problems] + 1, {})
-
-    @av = ArchiveViewer.new(@archive_data)
-    @as = ArchiveSearcher.new(@archive_data)
   end
 
   # call-seq:

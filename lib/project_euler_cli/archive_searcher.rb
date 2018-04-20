@@ -4,6 +4,7 @@ module ProjectEulerCli
 class ArchiveSearcher
   # Array of IDs corresponding to the problems found in last search
   attr_reader :results
+  # Tracks whether there is an active search
   attr_accessor :searching
 
   def initialize(archive_data)
@@ -19,7 +20,7 @@ class ArchiveSearcher
     puts "updating keywords..."
 
     # Loading each archive page
-    (1..@archive_data[:num_pages]).each do |page|
+    1.upto(@archive_data[:num_pages]) do |page|
       unless @archive_data[:visited_pages].include?(page)
         html = open("https://projecteuler.net/archives;page=#{page}")
         fragment = Nokogiri::HTML(html)
