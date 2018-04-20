@@ -22,10 +22,13 @@ class ArchiveSearcher
 
         problem_links = fragment.css('#problems_table td a')
 
-        i = (page - 1) * 50 - 1
+        i = (page - 1) * 50 + 1
         problem_links.each do |link|
-          @archive_data[:problems][i += 1] = link.text
+          @archive_data[:problems][i] = link.text
+          i += 1
         end
+
+        @archive_data[:visited_pages] << page
       end
     end
 
@@ -35,10 +38,11 @@ class ArchiveSearcher
 
       problem_links = fragment.css('#problems_table td a')
 
-      i = @archive_data[:num_problems]
       problem_links.each do |link|
-        @archive_data[:problems][i -= 1] = link.text
+        @archive_data[:problems].insert(@archive_data[:num_problems] - 9, link.text)
       end
+
+      @archive_data[:visited_pages] << 0
     end
   end
 
@@ -52,11 +56,11 @@ class ArchiveSearcher
     @searching = true
 
     @results.clear
-    terms_arr = terms.downcase.split(' ')
-
-    @archive_data[:problems].each.with_index do |string, i|
-      terms_arr.each do |term|
-        @results << i if string.include?(term.downcase)
+    terms.downcase.split(' ').each do |term|
+      for i in 1..@archive_data[:num_problems]
+        if @archive_data[:problems][i].downcase.include?(term.downcase)
+          @results << i
+        end
       end
     end
   end

@@ -11,17 +11,17 @@ class CLI
     main_menu
   end
 
+  def prompt
+    print "e: "
+    gets.strip
+  end
+
   def banner
     puts
     puts "  ---------------------------------- "
     puts " [          Project Euler           ]"
     puts " [            e^iπ = -1             ]"
     puts "  ---------------------------------- "
-  end
-
-  def prompt
-    print "e: "
-    gets.strip
   end
 
   def main_menu

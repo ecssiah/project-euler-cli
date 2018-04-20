@@ -1,11 +1,13 @@
 module ProjectEulerCli
 
+# Handles the work of displaying information about the problems.
 class ArchiveViewer
 
   def initialize(archive_data)
     @archive_data = archive_data
   end
 
+  # Loads in all of the problem numbers and titles from the recent page.
   def load_recent
     html = open("https://projecteuler.net/recent")
     fragment = Nokogiri::HTML(html)
@@ -19,6 +21,7 @@ class ArchiveViewer
     @archive_data[:visited_pages] << 0
   end
 
+  # Displays the 10 most recently added problems.
   def display_recent
     load_recent unless @archive_data[:visited_pages].include?(0)
 
@@ -29,30 +32,38 @@ class ArchiveViewer
     end
   end
 
+  # Loads the problem numbers and titles for an individual page of the archive.
   def load_page(page)
     html = open("https://projecteuler.net/archives;page=#{page}")
     fragment = Nokogiri::HTML(html)
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = (page - 1) * 50
-    problem_links.each { |link| @archive_data[:problems][i += 1] = link.text }
+    i = (page - 1) * 50 + 1
+    problem_links.each do |link|
+      @archive_data[:problems][i] = link.text
+      i += 1
+    end
 
     @archive_data[:visited_pages] << page
   end
 
+  # Displays the problem numbers and titles for an individual page of the archive.
   def display_page(page)
     page = [1, page, @archive_data[:num_pages]].sort[1] #clamp
     load_page(page) unless @archive_data[:visited_pages].include?(page)
 
     puts
 
-    init_index = (page - 1) * 50 + 1
-    for i in init_index...init_index + 50
-      puts "#{i} - #{@archive_data[:problems][i]}" unless i > @archive_data[:num_problems] - 10
+    start = (page - 1) * 50 + 1
+    for i in start...start + 50
+      unless i >= @archive_data[:num_problems] - 9
+        puts "#{i} - #{@archive_data[:problems][i]}"
+      end
     end
   end
 
+  # Loads the details of an individual problem.
   def load_problem_details(id)
     html = open("https://projecteuler.net/problem=#{id}")
     fragment = Nokogiri::HTML(html)
@@ -69,6 +80,9 @@ class ArchiveViewer
     end
   end
 
+  # Displays the details of an individual problem.
+  #
+  # * +id+ - ID of the problem to be displayed
   def display_problem(id)
     load_problem_details(id) if @archive_data[:problem_details][id].empty?
 
@@ -78,16 +92,23 @@ class ArchiveViewer
     puts
     puts @archive_data[:problem_details][id][:published]
     puts @archive_data[:problem_details][id][:solved_by]
-    puts @archive_data[:problem_details][id][:difficulty] unless id >= @archive_data[:num_problems] - 9
+
+    unless id >= @archive_data[:num_problems] - 9
+      puts @archive_data[:problem_details][id][:difficulty]
+    end
+
     puts
     puts "https://projecteuler.net/problem=#{id}"
   end
 
-  def display_results(results)
+  # Displays a custom page of problems given by an array of IDs.
+  #
+  # * +list+ - Array of problem IDs
+  def display_custom_page(list)
     puts
 
-    results.each do |result|
-      puts "#{result} - #{@archive_data[:problems][result]} "
+    list.each do |id|
+      puts "#{id} - #{@archive_data[:problems][id]} "
     end
   end
 
