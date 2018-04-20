@@ -14,9 +14,7 @@ class ArchiveController
 
     @archive_data[:visited_pages] = []
     @archive_data[:problems] = Array.new(@archive_data[:num_problems] + 1, "")
-    @archive_data[:problem_details] = Array.new(@archive_data[:num_problems] + 1) do
-      {}
-    end
+    @archive_data[:problem_details] = Array.new(@archive_data[:num_problems] + 1) { {} }
   end
 
   # call-seq:
