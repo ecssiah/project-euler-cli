@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     f.match(%r{^(test|spec|features)/})
   end
   spec.bindir = 'bin'
-  spec.executables << 'project_euler_cli'
+  spec.executables << 'project-euler-cli'
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.16"
