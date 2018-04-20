@@ -7,8 +7,8 @@ class ArchiveSearcher
   # Tracks whether there is an active search
   attr_accessor :searching
 
-  def initialize(archive_data)
-    @archive_data = archive_data
+  def initialize(problems)
+    @problems = problems
 
     @results = []
     @searching = false
@@ -20,8 +20,8 @@ class ArchiveSearcher
     puts "updating keywords..."
 
     # Loading each archive page
-    1.upto(@archive_data[:num_pages]) do |page|
-      unless @archive_data[:visited_pages].include?(page)
+    1.upto(Page.total) do |page|
+      unless Page.visited.include?(page)
         html = open("https://projecteuler.net/archives;page=#{page}")
         fragment = Nokogiri::HTML(html)
 
@@ -29,28 +29,28 @@ class ArchiveSearcher
 
         i = (page - 1) * 50 + 1
         problem_links.each do |link|
-          @archive_data[:problems][i] = link.text
+          @problems[i].title = link.text
           i += 1
         end
 
-        @archive_data[:visited_pages] << page
+        Page.visited << page
       end
     end
 
     # Loading the recent problems
-    unless @archive_data[:visited_pages].include?(0)
+    unless Page.visited.include?(0)
       html = open("https://projecteuler.net/recent")
       fragment = Nokogiri::HTML(html)
 
       problem_links = fragment.css('#problems_table td a')
 
-      i = @archive_data[:num_problems]
+      i = Problem.total
       problem_links.each do |link|
-        @archive_data[:problems][i] = link.text
+        @problems[i].title = link.text
         i -= 1
       end
 
-      @archive_data[:visited_pages] << 0
+      Page.visited << 0
     end
   end
 
@@ -69,8 +69,8 @@ class ArchiveSearcher
     @searching = true
 
     terms.downcase.split(' ').each do |term|
-      for i in 1..@archive_data[:num_problems]
-        if @archive_data[:problems][i].downcase.include?(term.downcase)
+      for i in 1..Problem.total
+        if @problems[i].title.downcase.include?(term.downcase)
           @results << i
         end
       end

@@ -58,7 +58,7 @@ class CLI
 
     input = prompt
 
-    if input.to_i.between?(@ac.num_problems - 9, @ac.num_problems)
+    if input.to_i.between?(Problem.total - 9, Problem.total)
       problem_menu(input.to_i)
     elsif input == 'x'
       return
@@ -68,11 +68,11 @@ class CLI
   end
 
   def page_menu(page)
-    page = [1, page, @ac.num_pages].sort[1] #clamp
+    page = [1, page, Page.total].sort[1] #clamp
     @ac.display_page(page)
 
     puts
-    puts "[#{page}/#{@ac.num_pages}] (n)ext (p)rev (g)oto e(x)it"
+    puts "[#{page}/#{Page.total}] (n)ext (p)rev (g)oto e(x)it"
 
     input = prompt
 

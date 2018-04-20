@@ -3,8 +3,8 @@ module ProjectEulerCli
 # Handles the work of displaying information about the problems.
 class ArchiveViewer
 
-  def initialize(archive_data)
-    @archive_data = archive_data
+  def initialize(problems)
+    @problems = problems
   end
 
   # Loads in all of the problem numbers and titles from the recent page.
@@ -14,23 +14,23 @@ class ArchiveViewer
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = @archive_data[:num_problems]
+    i = Problem.total
     problem_links.each do |link|
-      @archive_data[:problems][i] = link.text
+      @problems[i].title = link.text
       i -= 1
     end
 
-    @archive_data[:visited_pages] << 0
+    Page.visited << 0
   end
 
   # Displays the 10 most recently added problems.
   def display_recent
-    load_recent unless @archive_data[:visited_pages].include?(0)
+    load_recent unless Page.visited.include?(0)
 
     puts
 
-    (@archive_data[:num_problems]).downto(@archive_data[:num_problems] - 9) do |i|
-      puts "#{i} - #{@archive_data[:problems][i]}"
+    (Problem.total).downto(Problem.total - 9) do |i|
+      puts "#{i} - #{@problems[i].title}"
     end
   end
 
@@ -43,23 +43,23 @@ class ArchiveViewer
 
     i = (page - 1) * 50 + 1
     problem_links.each do |link|
-      @archive_data[:problems][i] = link.text
+      @problems[i].title = link.text
       i += 1
     end
 
-    @archive_data[:visited_pages] << page
+    Page.visited << page
   end
 
   # Displays the problem numbers and titles for an individual page of the archive.
   def display_page(page)
-    load_page(page) unless @archive_data[:visited_pages].include?(page)
+    load_page(page) unless Page.visited.include?(page)
 
     puts
 
     start = (page - 1) * 50 + 1
     for i in start...start + 50
-      unless i >= @archive_data[:num_problems] - 9
-        puts "#{i} - #{@archive_data[:problems][i]}"
+      unless i >= Problem.total - 9
+        puts "#{i} - #{@problems[i].title}"
       end
     end
   end
@@ -72,12 +72,12 @@ class ArchiveViewer
     problem_info = fragment.css('div#problem_info span span')
 
     details = problem_info.text.split(';')
-    @archive_data[:problem_details][id][:published] = details[0].strip
-    @archive_data[:problem_details][id][:solved_by] = details[1].strip
+    @problems[id].published = details[0].strip
+    @problems[id].solved_by = details[1].strip
 
     # recent problems do not have a difficult rating
-    if id < @archive_data[:num_problems] - 9
-      @archive_data[:problem_details][id][:difficulty] = details[2].strip
+    if id < Problem.total - 9
+      @problems[id].difficulty = details[2].strip
     end
   end
 
@@ -85,19 +85,15 @@ class ArchiveViewer
   #
   # * +id+ - ID of the problem to be displayed
   def display_problem(id)
-    load_problem_details(id) if @archive_data[:problem_details][id].empty?
+    load_problem_details(id) if @problems[id].published.nil?
 
     puts
-    puts "#{@archive_data[:problems][id]}".upcase
+    puts "#{@problems[id].title}".upcase
     puts "Problem #{id}"
     puts
-    puts @archive_data[:problem_details][id][:published]
-    puts @archive_data[:problem_details][id][:solved_by]
-
-    if id < @archive_data[:num_problems] - 9
-      puts @archive_data[:problem_details][id][:difficulty]
-    end
-
+    puts @problems[id].published
+    puts @problems[id].solved_by
+    puts @problems[id].difficulty if id < Problem.total - 9
     puts
     puts "https://projecteuler.net/problem=#{id}"
   end
@@ -108,9 +104,7 @@ class ArchiveViewer
   def display_custom_page(list)
     puts
 
-    list.each do |id|
-      puts "#{id} - #{@archive_data[:problems][id]}"
-    end
+    list.each { |id| puts "#{id} - #{@problems[id].title}" }
   end
 
 end
