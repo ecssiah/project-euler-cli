@@ -5,19 +5,27 @@ module Scraper
   # Pulls information from the recent page to determine the total number of problems
   # and pages.
   def lookup_totals
-    html = open("https://projecteuler.net/recent")
-    fragment = Nokogiri::HTML(html)
+    begin
+      Timeout.timeout(4) do
+        html = open("https://projecteuler.net/recent")
+        fragment = Nokogiri::HTML(html)
 
-    id_col = fragment.css('#problems_table td.id_column')
+        id_col = fragment.css('#problems_table td.id_column')
 
-    # The newest problem is the first one listed on the recent page. The ID of this
-    # problem will always equal the total number of problems.
-    Problem.total = id_col.first.text.to_i
-    # There are ten problems on the recent page, so the last archive problem can be
-    # found by subtracting 10 from the total number of problems. This is used to
-    # calculate the total number of pages.
-    last_archive_id = Problem.total - 10
-    Page.total = (last_archive_id - 1) / Page::PROBLEMS_PER_PAGE + 1
+        # The newest problem is the first one listed on the recent page. The ID of this
+        # problem will always equal the total number of problems.
+        Problem.total = id_col.first.text.to_i
+        # There are ten problems on the recent page, so the last archive problem can be
+        # found by subtracting 10 from the total number of problems. This is used to
+        # calculate the total number of pages.
+        last_archive_id = Problem.total - 10
+        Page.total = (last_archive_id - 1) / Page::PROBLEMS_PER_PAGE + 1
+      end
+    rescue Timeout::Error
+      puts "Project Euler is not responding."
+
+      exit(true)
+    end
   end
 
   # Loads in all of the problem numbers and titles from the recent page.

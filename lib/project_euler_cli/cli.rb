@@ -76,7 +76,10 @@ class CLI
 
     input = prompt
 
-    if input.to_i.between?(Page::PROBLEMS_PER_PAGE * (page - 1) + 1, Page::PROBLEMS_PER_PAGE * page)
+    first_problem = Page::PROBLEMS_PER_PAGE * (page - 1) + 1
+    last_problem = Page::PROBLEMS_PER_PAGE * page
+
+    if input.to_i.between?(first_problem, last_problem)
       problem_menu(input.to_i)
     elsif input == 'n'
       page_menu(page + 1)
@@ -113,6 +116,14 @@ class CLI
     end
   end
 
+  def search_menu
+    print "search: "
+
+    search_terms = gets.strip
+    @ac.search(search_terms)
+    search_results_menu
+  end
+
   def search_results_menu
     @ac.display_results
 
@@ -131,14 +142,6 @@ class CLI
     else
       search_results_menu
     end
-  end
-
-  def search_menu
-    print "search: "
-
-    search_terms = gets.strip
-    @ac.search(search_terms)
-    search_results_menu
   end
 
 end
