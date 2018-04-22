@@ -55,7 +55,7 @@ class ArchiveController
     if id.between?(Problem.total - 9, Problem.total)
       0
     elsif id.between?(1, Problem.total - 10)
-      (id - 1) / Page::PROBLEMS_PER_PAGE + 1
+      (id - 1) / Page::LENGTH + 1
     else
       -1
     end
