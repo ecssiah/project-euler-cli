@@ -2,8 +2,8 @@ module ProjectEulerCli
 
 module Scraper
 
-  # Pulls information from the recent page to determine the total number of problems
-  # and pages.
+  # Pulls information from the recent page to determine the total number of 
+  # problems and pages.
   def lookup_totals
     begin
       Timeout.timeout(4) do
@@ -12,14 +12,14 @@ module Scraper
 
         id_col = fragment.css('#problems_table td.id_column')
 
-        # The newest problem is the first one listed on the recent page. The ID of this
-        # problem will always equal the total number of problems.
+        # The newest problem is the first one listed on the recent page. The ID 
+        # of this problem will always equal the total number of problems.
         Problem.total = id_col.first.text.to_i
-        # There are ten problems on the recent page, so the last archive problem can be
-        # found by subtracting 10 from the total number of problems. This is used to
-        # calculate the total number of pages.
+        # There are ten problems on the recent page, so the last archive problem 
+        # can be found by subtracting 10 from the total number of problems. This 
+        # is used to calculate the total number of pages.
         last_archive_id = Problem.total - 10
-        Page.total = (last_archive_id - 1) / Page::PROBLEMS_PER_PAGE + 1
+        Page.total = (last_archive_id - 1) / Page::LENGTH + 1
       end
     rescue Timeout::Error
       puts "Project Euler is not responding."
@@ -55,7 +55,7 @@ module Scraper
 
     problem_links = fragment.css('#problems_table td a')
 
-    i = (page - 1) * Page::PROBLEMS_PER_PAGE + 1
+    i = (page - 1) * Page::LENGTH + 1
     problem_links.each do |link|
       problems[i].title = link.text
       i += 1

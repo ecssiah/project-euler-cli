@@ -19,15 +19,16 @@ class ArchiveViewer
     end
   end
 
-  # Displays the problem numbers and titles for an individual page of the archive.
+  # Displays the problem numbers and titles for an individual page of the 
+  # archive.
   def display_page(page)
     load_page(page, @problems)
 
     puts
 
-    start = (page - 1) * Page::PROBLEMS_PER_PAGE + 1
-    for i in start...start + Page::PROBLEMS_PER_PAGE
-      puts "#{i} - #{@problems[i].title}" unless i >= Problem.total - 9
+    i = (page - 1) * Page::LENGTH
+    Page::LENGTH.times do
+      puts "#{i += 1} - #{@problems[i].title}" unless i >= Problem.total - 9
     end
   end
 

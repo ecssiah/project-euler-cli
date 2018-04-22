@@ -1,7 +1,7 @@
 module ProjectEulerCli #:nodoc:
 
-# Manages the command line interface for the program. It uses the ArchiveController
-# to access the site data.
+# Manages the command line interface for the program. It uses the 
+# ArchiveController to access the site data.
 class CLI
 
   def initialize
@@ -76,8 +76,8 @@ class CLI
 
     input = prompt
 
-    first_problem = Page::PROBLEMS_PER_PAGE * (page - 1) + 1
-    last_problem = Page::PROBLEMS_PER_PAGE * page
+    first_problem = Page::LENGTH * (page - 1) + 1
+    last_problem = Page::LENGTH * page
 
     if input.to_i.between?(first_problem, last_problem)
       problem_menu(input.to_i)

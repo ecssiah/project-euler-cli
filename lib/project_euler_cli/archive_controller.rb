@@ -1,7 +1,7 @@
 module ProjectEulerCli
 
-# Controller class that manages the archive system. It holds the archive data used
-# by ArchiveViewer and ArchiveSearcher.
+# Controller class that manages the archive system. It holds the archive data 
+# used by ArchiveViewer and ArchiveSearcher.
 class ArchiveController
   include Scraper
 
