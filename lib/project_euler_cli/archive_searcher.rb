@@ -35,12 +35,11 @@ class ArchiveSearcher
     end
 
     puts "searching..."
-    @results.clear
     @searching = true
 
-    terms.downcase.split(' ').each do |term|
-      for i in 1..Problem.total
-        @results << i if @problems[i].title.downcase.include?(term.downcase)
+    @results = (1..Problem.total).select do |i|
+      terms.downcase.split(' ').all? do |term|
+        @problems[i].title.downcase.include?(term)
       end
     end
   end
