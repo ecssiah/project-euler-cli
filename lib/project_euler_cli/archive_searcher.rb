@@ -25,14 +25,11 @@ class ArchiveSearcher
   end
 
   # Performs a simple search of the problems. It accepts multiple terms. Results
-  # will contain *any* of the terms
+  # will contain *all* of the search terms.
   #
   # * +terms+ - String of search terms
   def search(terms)
-    if @initial_search
-      @initial_search = false
-      load_terms
-    end
+    load_terms if Page.visited != (0..Page.total).to_a
 
     puts "searching..."
     @searching = true
