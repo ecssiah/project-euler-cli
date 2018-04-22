@@ -40,9 +40,7 @@ class ArchiveSearcher
 
     terms.downcase.split(' ').each do |term|
       for i in 1..Problem.total
-        if @problems[i].title.downcase.include?(term.downcase)
-          @results << i
-        end
+        @results << i if @problems[i].title.downcase.include?(term.downcase)
       end
     end
   end
