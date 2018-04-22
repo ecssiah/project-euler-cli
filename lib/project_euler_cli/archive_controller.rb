@@ -50,15 +50,9 @@ class ArchiveController
   #   get_page(id) => page
   #
   # Returns page number based on the ID of the problem. The recent page is
-  # considered page 0, invalid pages return -1.
+  # considered page 0.
   def get_page(id)
-    if id.between?(Problem.total - 9, Problem.total)
-      0
-    elsif id.between?(1, Problem.total - 10)
-      (id - 1) / Page::LENGTH + 1
-    else
-      -1
-    end
+    id.between?(1, Problem.total - 10) ? (id - 1) / Page::LENGTH + 1 : 0
   end
 
 end
