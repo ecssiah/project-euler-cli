@@ -39,7 +39,7 @@ class ArchiveViewer
     load_problem_details(id, @problems)
 
     puts
-    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
     puts
     puts "#{@problems[id].title}".upcase
     puts "Problem #{id}"
@@ -50,7 +50,7 @@ class ArchiveViewer
     puts
     puts "https://projecteuler.net/problem=#{id}"
     puts
-    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
   end
 
   # Displays a custom page of problems given by an array of IDs.
