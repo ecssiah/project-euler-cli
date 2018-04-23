@@ -1,5 +1,6 @@
 module ProjectEulerCli
 
+# Holds all of the methods related to accessing the site.
 module Scraper
 
   # Pulls information from the recent page to determine the total number of 

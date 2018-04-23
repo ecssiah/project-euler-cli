@@ -20,17 +20,17 @@ class CLI
 
   def banner
     puts
-    puts "  ---------------------------------- "
-    puts " [          Project Euler           ]"
-    puts " [            e^iπ = -1             ]"
-    puts "  ---------------------------------- "
+    puts "  ----------------------------------  "
+    puts " [          Project Euler           ] "
+    puts " [            e^iπ = -1             ] "
+    puts "  ----------------------------------  "
   end
 
   def main_menu
-    puts " -     List recent problems (r)     -"
-    puts " -    List archived problems (l)    -"
-    puts " -            Search (s)            -"
-    puts " -             Exit (x)             -"
+    puts " -     List recent problems (r)     - "
+    puts " -    List archived problems (l)    - "
+    puts " -            Search (s)            - "
+    puts " -             Exit (x)             - "
 
     input = prompt
 

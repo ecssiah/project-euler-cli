@@ -26,9 +26,9 @@ class ArchiveViewer
 
     puts
 
-    i = (page - 1) * Page::LENGTH
-    Page::LENGTH.times do
-      puts "#{i += 1} - #{@problems[i].title}" unless i >= Problem.total - 9
+    start = (page - 1) * Page::LENGTH + 1
+    start.upto(start + Page::LENGTH - 1) do |i|
+      puts "#{i} - #{@problems[i].title}" unless i >= Problem.total - 9
     end
   end
 
@@ -39,6 +39,8 @@ class ArchiveViewer
     load_problem_details(id, @problems)
 
     puts
+    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+    puts
     puts "#{@problems[id].title}".upcase
     puts "Problem #{id}"
     puts
@@ -47,6 +49,8 @@ class ArchiveViewer
     puts @problems[id].difficulty if id < Problem.total - 9
     puts
     puts "https://projecteuler.net/problem=#{id}"
+    puts
+    puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
   end
 
   # Displays a custom page of problems given by an array of IDs.
