@@ -18,26 +18,30 @@ class ArchiveSearcher
   end
 
   # Loads the problem numbers and titles for every page that is not loaded.
-  def load_terms
+  def load_keywords
     puts "updating keywords..."
 
     0.upto(Page.total) { |page| load_page(page, @problems) }
   end
 
-  # Performs a simple search of the problems. It accepts multiple terms. Results
-  # will contain *all* of the search terms.
+  # Performs a simple search of the problems. It accepts multiple terms and
+  # recognizes quoted phrases. Results will contain *all* of the search terms.
   #
   # * +terms+ - String of search terms
-  def search(terms)
-    load_terms if Page.visited != (0..Page.total).to_a
+  def search(terms_string)
+    load_keywords if Page.visited != (0..Page.total).to_a
 
     puts "searching..."
     @searching = true
 
+    terms_string.downcase!
+    terms = terms_string.scan(/"[^"]*"/)
+    terms.each { |term| terms_string.slice!(term) }
+    terms.collect! { |term| term.gsub("\"", '') }
+    terms += terms_string.split(' ')
+
     @results = (1..Problem.total).select do |i|
-      terms.downcase.split(' ').all? do |term|
-        @problems[i].title.downcase.include?(term)
-      end
+      terms.all? { |term| @problems[i].title.downcase.include?(term) }
     end
   end
 
