@@ -26,17 +26,17 @@ class ArchiveSearcher
   # recognizes quoted phrases. Results will contain *all* of the search terms.
   #
   # * +terms+ - String of search terms
-  def search(terms_string)
+  def search(search_string)
     load_keywords if Page.visited != (0..Page.total).to_a
 
     puts "searching..."
     @searching = true
 
-    terms_string.downcase!
-    terms = terms_string.scan(/"[^"]*"/)
-    terms.each { |term| terms_string.slice!(term) }
+    search_string.downcase!
+    terms = search_string.scan(/"[^"]*"/)
+    terms.each { |term| search_string.slice!(term) }
     terms.collect! { |term| term.gsub("\"", '') }
-    terms += terms_string.split(' ')
+    terms += search_string.split(' ')
 
     @results = (1..Problem.total).select do |i|
       terms.all? { |term| Problem[i].title.downcase.include?(term) }

@@ -41,7 +41,7 @@ class ArchiveViewer
     puts
     puts "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
     puts
-    puts "#{Problem[id].title}".upcase
+    puts Problem[id].title.upcase
     puts "Problem #{id}"
     puts
     puts Problem[id].published

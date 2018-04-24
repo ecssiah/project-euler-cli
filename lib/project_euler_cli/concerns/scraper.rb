@@ -16,13 +16,9 @@ module Scraper
         # The newest problem is the first one listed on the recent page. The ID 
         # of this problem will always equal the total number of problems.
         id_col.first.text.to_i.times { Problem.new }
-
-        puts Problem.total
-
         # There are ten problems on the recent page, so the last archive problem 
-        # can be found by subtracting 10 from the total number of problems. This 
-        # is used to calculate the total number of pages.
-        Page.total = (Problem.total - 10 - 1) / Page::LENGTH + 1
+        # can be found by subtracting 10 from the total number of problems.
+        Page.total = Problem.page(Problem.total - 10) 
       end
     rescue Timeout::Error
       puts "Project Euler is not responding."
@@ -81,7 +77,7 @@ module Scraper
     Problem[id].solved_by = details[1].strip
 
     # recent problems do not have a difficult rating
-    Problem[id].difficulty = details[2].strip if id < Problem.total - 9
+    Problem[id].difficulty = details[2].strip if id <= Problem.total - 10
   end
 
 end
