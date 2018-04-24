@@ -9,9 +9,7 @@ class ArchiveSearcher
   # Tracks whether there is an active search
   attr_accessor :searching
 
-  def initialize(problems)
-    @problems = problems
-
+  def initialize
     @results = []
     @searching = false
     @initial_search = true
@@ -21,7 +19,7 @@ class ArchiveSearcher
   def load_keywords
     puts "updating keywords..."
 
-    0.upto(Page.total) { |page| load_page(page, @problems) }
+    0.upto(Page.total) { |page| load_page(page) }
   end
 
   # Performs a simple search of the problems. It accepts multiple terms and
@@ -41,7 +39,7 @@ class ArchiveSearcher
     terms += terms_string.split(' ')
 
     @results = (1..Problem.total).select do |i|
-      terms.all? { |term| @problems[i].title.downcase.include?(term) }
+      terms.all? { |term| Problem[i].title.downcase.include?(term) }
     end
   end
 

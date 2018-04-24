@@ -15,12 +15,14 @@ module Scraper
 
         # The newest problem is the first one listed on the recent page. The ID 
         # of this problem will always equal the total number of problems.
-        Problem.total = id_col.first.text.to_i
+        id_col.first.text.to_i.times { Problem.new }
+
+        puts Problem.total
+
         # There are ten problems on the recent page, so the last archive problem 
         # can be found by subtracting 10 from the total number of problems. This 
         # is used to calculate the total number of pages.
-        last_archive_id = Problem.total - 10
-        Page.total = (last_archive_id - 1) / Page::LENGTH + 1
+        Page.total = (Problem.total - 10 - 1) / Page::LENGTH + 1
       end
     rescue Timeout::Error
       puts "Project Euler is not responding."
@@ -30,7 +32,7 @@ module Scraper
   end
 
   # Loads in all of the problem numbers and titles from the recent page.
-  def load_recent(problems)
+  def load_recent
     return if Page.visited.include?(0)
 
     html = open("https://projecteuler.net/recent")
@@ -40,7 +42,7 @@ module Scraper
 
     i = Problem.total
     problem_links.each do |link|
-      problems[i].title = link.text
+      Problem[i].title = link.text
       i -= 1
     end
 
@@ -48,7 +50,7 @@ module Scraper
   end
 
   # Loads the problem numbers and titles for an individual page of the archive.
-  def load_page(page, problems)
+  def load_page(page)
     return if Page.visited.include?(page)
 
     html = open("https://projecteuler.net/archives;page=#{page}")
@@ -58,7 +60,7 @@ module Scraper
 
     i = (page - 1) * Page::LENGTH + 1
     problem_links.each do |link|
-      problems[i].title = link.text
+      Problem[i].title = link.text
       i += 1
     end
 
@@ -66,8 +68,8 @@ module Scraper
   end
 
   # Loads the details of an individual problem.
-  def load_problem_details(id, problems)
-    return unless problems[id].published.nil?
+  def load_problem_details(id)
+    return unless Problem[id].published.nil?
 
     html = open("https://projecteuler.net/problem=#{id}")
     fragment = Nokogiri::HTML(html)
@@ -75,11 +77,11 @@ module Scraper
     problem_info = fragment.css('div#problem_info span span')
 
     details = problem_info.text.split(';')
-    problems[id].published = details[0].strip
-    problems[id].solved_by = details[1].strip
+    Problem[id].published = details[0].strip
+    Problem[id].solved_by = details[1].strip
 
     # recent problems do not have a difficult rating
-    problems[id].difficulty = details[2].strip if id < Problem.total - 9
+    Problem[id].difficulty = details[2].strip if id < Problem.total - 9
   end
 
 end
